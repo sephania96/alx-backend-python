@@ -9,3 +9,8 @@ def connect_db():
         print(f"Connection Error: {err}")
         return None
 
+def create_database(connection):
+    cursor = connection.cursor()
+    cursor.execute("CREATE DATABASE IF NOT EXISTS ALX_prodev")
+    cursor.close()
+
