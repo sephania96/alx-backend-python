@@ -14,3 +14,10 @@ def create_database(connection):
     cursor.execute("CREATE DATABASE IF NOT EXISTS ALX_prodev")
     cursor.close()
 
+def connect_to_prodev():
+    try:
+        return mysql.connector.connect(host="localhost", user="root", password="", database="ALX_prodev")
+    except mysql.connector.Error as err:
+        print(f"Connection Error: {err}")
+        return None
+
