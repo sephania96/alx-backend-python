@@ -3,6 +3,7 @@
 
 import sqlite3
 import functools
+from datetime import datetime
 
 #Decorator to Log SQL queries before execution
 def log_queries(func):
@@ -10,9 +11,9 @@ def log_queries(func):
     def wrapper(*args, **kwargs):
         query = kwargs.get("query") or (args[0] if args else None)
         if query:
-            print(f"[LOG] Executing SQL query: {query}")
+            print(f"[{datetime.now()}] Executing SQL query: {query}")
         result = func(*args, **kwargs)
-        print("[LOG] Query execution complete")
+        print("[{datetime.now()}] Query execution complete")
         return result
     return wrapper
 
