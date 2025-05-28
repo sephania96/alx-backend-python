@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 """Unit test for utils.access_nested_map"""
 
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.dirname(__file__)))
+
 import unittest
 from parameterized import parameterized
 from utils import access_nested_map
