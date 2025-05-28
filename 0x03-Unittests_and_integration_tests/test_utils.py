@@ -1,14 +1,12 @@
 #!/usr/bin/env python3
+
 """Unit test for utils.access_nested_map"""
-
-
 from utils import access_nested_map
 from parameterized import parameterized
 import unittest
 
-
+"""Test cases for access_nested_map function"""
 class TestAccessNestedMap(unittest.TestCase):
-    """Test cases for access_nested_map function"""
 
     @parameterized.expand([
         ("simple_path", {"a": 1}, ("a",), 1),
