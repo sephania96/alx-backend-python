@@ -1,13 +1,6 @@
 #!/usr/bin/env python3
 """Unit test for utils.access_nested_map"""
 
-import sys
-import os
-
-# Adjust path to import utils.py from the project root
-CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
-PROJECT_ROOT = os.path.abspath(os.path.join(CURRENT_DIR, ".."))
-sys.path.insert(0, PROJECT_ROOT)
 
 from utils import access_nested_map
 from parameterized import parameterized
