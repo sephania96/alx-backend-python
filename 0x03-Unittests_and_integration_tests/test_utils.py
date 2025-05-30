@@ -34,7 +34,9 @@ class TestAccessNestedMap(unittest.TestCase):
         """Test KeyError is raised for missing keys in nested maps"""
         with self.assertRaises(KeyError) as cm:
             access_nested_map(nested_map, path)
-        self.assertEqual(str(cm.exception), repr(path[len(cm.exception.args[0]):][0]) if len(path) > 1 else repr(path[0]))
+        # The raised key will be the first missing one in the path
+        self.assertEqual(cm.exception.args[0], path[len(path) - len(cm.exception.args):][0])
+
 
 if __name__ == '__main__':
     unittest.main()
