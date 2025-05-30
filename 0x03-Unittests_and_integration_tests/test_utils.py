@@ -12,8 +12,11 @@ CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.abspath(os.path.join(CURRENT_DIR, ".."))
 sys.path.insert(0, PROJECT_ROOT)
 
+# Local import after setting sys.path
 from utils import access_nested_map, get_json
 
+# Re-import memoize to fix NameError
+from utils import memoize
 
 class TestAccessNestedMap(unittest.TestCase):
     """Test cases for access_nested_map function"""
@@ -27,7 +30,7 @@ class TestAccessNestedMap(unittest.TestCase):
         ("deep_path", {"a": {"b": 2}}, ("a", "b"), 2),
     ])
     def test_access_nested_map(self, name, nested_map, path, expected):
-        """Test valid access of nested maps"""
+        """Test valid access of nested maps and expected return values"""
         self.assertEqual(access_nested_map(nested_map, path), expected)
 
     @parameterized.expand([
@@ -37,10 +40,9 @@ class TestAccessNestedMap(unittest.TestCase):
         ("missing_nested_key", {"a": 1}, ("a", "b")),
     ])
     def test_access_nested_map_exception(self, name, nested_map, path):
-        """Test KeyError is raised for missing keys in nested maps"""
+        """Test that KeyError is raised for missing keys in path"""
         with self.assertRaises(KeyError) as cm:
             access_nested_map(nested_map, path)
-        # Check that the KeyError was raised on the correct key
         self.assertEqual(cm.exception.args[0], path[len(path) - len(cm.exception.args):][0])
 
 
@@ -53,17 +55,17 @@ class TestGetJson(unittest.TestCase):
         ("http://holberton.io", {"payload": False}),
     ])
     def test_get_json(self, test_url, test_payload):
-        """Test get_json returns correct payload and calls requests.get once"""
+        """Test that get_json returns expected payload and calls requests.get once"""
         with patch('utils.requests.get') as mock_get:
-            # Create a mock response with .json() returning our test payload
             mock_response = Mock()
             mock_response.json.return_value = test_payload
             mock_get.return_value = mock_response
 
-            # Call the actual function and verify behavior
             result = get_json(test_url)
             mock_get.assert_called_once_with(test_url)
             self.assertEqual(result, test_payload)
+
+
 class TestMemoize(unittest.TestCase):
     """Tests for the memoize decorator"""
 
@@ -87,6 +89,7 @@ class TestMemoize(unittest.TestCase):
             self.assertEqual(result1, 42)
             self.assertEqual(result2, 42)
             mock_method.assert_called_once()  # Ensure a_method was called only once
+
 
 if __name__ == '__main__':
     unittest.main()
