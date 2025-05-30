@@ -21,6 +21,7 @@ from utils import memoize
 class TestAccessNestedMap(unittest.TestCase):
     """Test cases for access_nested_map function"""
 
+
     @parameterized.expand([
         # Test with single-level dictionary
         ("simple_path", {"a": 1}, ("a",), 1),
@@ -88,7 +89,7 @@ class TestMemoize(unittest.TestCase):
 
             self.assertEqual(result1, 42)
             self.assertEqual(result2, 42)
-            mock_method.assert_called_once()  
+            mock_method.assert_called_once()
 # Ensure a_method was called only once
 
 
