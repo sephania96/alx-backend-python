@@ -43,7 +43,7 @@ INSTALLED_APPS = [
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny',"rest_framework.permissions.IsAuthenticated", "DEFAULT_AUTHENTICATION_CLASSES", "rest_framework.authentication.SessionAuthentication",
+        'rest_framework.permissions.AllowAny', 'rest_framework.permissions.IsAuthenticated', "rest_framework.authentication.SessionAuthentication",
     ]
 }
 
@@ -107,6 +107,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = 'chats.User'
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
