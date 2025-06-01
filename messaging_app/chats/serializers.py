@@ -1,26 +1,22 @@
-#chats serializer
 from rest_framework import serializers
-from .models import User, Conversation, Message
+from .models import User
+from .models import Conversation
+from .models import Message
+from .models import Chat
 
-# Serialize User data
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ['id', 'username', 'email']
-
-# Serialize Message model
 class MessageSerializer(serializers.ModelSerializer):
-    sender = UserSerializer(read_only=True)  # Display sender info
-
+    message_id = serializers.CharField(max_length=255)
+    summary = serializers.SerializerMethodField()
     class Meta:
         model = Message
-        fields = ['id', 'sender', 'content', 'timestamp']
-
-# Serialize Conversation and include nested messages
+        fields = '__all__'
 class ConversationSerializer(serializers.ModelSerializer):
-    participants = UserSerializer(many=True, read_only=True)
-    messages = MessageSerializer(many=True, read_only=True)
-
+    message_body = serializers.CharField(max_length=255)
+    summary = serializers.SerializerMethodField()
     class Meta:
-        model = Conversation
-        fields = ['id', 'participants', 'messages', 'created_at']
+        model = Message
+        fields = '__all__'        
+    def validate_message(self, obj):
+        if ( message_body =! obj.conversation_id ):
+            raise serializers.ValidationError("Title is too short.")
+        return value
