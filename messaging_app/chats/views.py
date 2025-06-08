@@ -6,6 +6,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from .models import Conversation, Message
 from .serializers import ConversationSerializer, MessageSerializer
+from rest_framework.status import HTTP_403_FORBIDDEN
 
 class ConversationViewSet(viewsets.ModelViewSet):
     """ViewSet for handling conversations."""
