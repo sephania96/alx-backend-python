@@ -1,2 +1,10 @@
-2025-06-08 16:25:42 - User: Anonymous - Path: /admin/
-2025-06-08 16:25:42 - User: Anonymous - Path: /admin/login/
+2025-06-08 14:30:25.123456 - User: john_doe - Path: /api/chats/messages/
+2025-06-08 14:30:27.654321 - User: Anonymous - Path: /api/token/
+2025-06-08 14:30:45.987654 - User: jane_smith - Path: /api/chats/conversations/
+2025-06-08 14:31:02.111222 - User: Anonymous - Path: /login/
+2025-06-08 14:31:15.333444 - User: admin_user - Path: /admin/
+2025-06-08 14:31:30.555666 - User: john_doe - Path: /api/chats/messages/
+2025-06-08 14:31:45.777888 - User: moderator_user - Path: /api/reports/
+2025-06-08 14:32:00.999000 - User: Anonymous - Path: /api/chats/conversations/
+2025-06-08 14:32:15.123789 - User: spammer_ip - Path: /api/chats/messages/
+2025-06-08 14:32:16.456012 - User: spammer_ip - Path: /api/chats/messages/
