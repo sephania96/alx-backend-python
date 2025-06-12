@@ -3,6 +3,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import Prefetch
+from messaging.managers import UnreadMessagesManager
 
 # Message model to store user-to-user messages
 class Message(models.Model):
@@ -13,7 +14,10 @@ class Message(models.Model):
     edited = models.BooleanField(default=False)
     edited_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='edited_messages')
     parent_message = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='replies')  # Support threaded replies
+    read = models.BooleanField(default=False)
 
+    #custom manager for unread
+    unread = UnreadMessagesManager
 
     def __str__(self):
         return f"From {self.sender} to {self.receiver} at {self.timestamp}"
