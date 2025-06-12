@@ -6,6 +6,7 @@ from django.utils.decorators import method_decorator
 from django.views import View
 from messaging.models import Message
 from django.db.models import Q
+from django.views.decorators.cache import cache_page
 
 @require_http_methods(["DELETE"])
 def delete_user(request, user_id):
@@ -33,6 +34,7 @@ class MessageCreateView(View):
             return JsonResponse({"error": "Receiver not found."}, status=404)
 
 @method_decorator(csrf_exempt, name='dispatch')
+@method_decorator(cache_page(60), name='dispatch')  # Cache response for 60 seconds
 class ThreadedMessagesView(View):
     def get(self, request):
         user = request.user  # Must be authenticated
