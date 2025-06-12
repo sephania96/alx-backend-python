@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
-from .models import Message, Notification
+from .models import Message, Notification, MessageHistory
 
 class NotificationSignalTestCase(TestCase):
     def setUp(self):
