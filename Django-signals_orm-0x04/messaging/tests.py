@@ -17,3 +17,16 @@ class NotificationSignalTestCase(TestCase):
         self.assertEqual(notification.user, self.receiver)
         self.assertEqual(notification.message, message)
         self.assertFalse(notification.is_read)
+
+def test_message_edit_creates_history(self):
+        # Create initial message
+        message = Message.objects.create(sender=self.sender, receiver=self.receiver, content='Initial')
+        # Edit message
+        message.content = 'Updated'
+        message.save()
+
+        # Check MessageHistory was created
+        self.assertEqual(MessageHistory.objects.count(), 1)
+        history = MessageHistory.objects.first()
+        self.assertEqual(history.old_content, 'Initial')
+        self.assertTrue(message.edited)
