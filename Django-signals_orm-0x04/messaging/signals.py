@@ -2,6 +2,7 @@
 from django.db.models.signals import post_save, pre_save, post_delete
 from django.dispatch import receiver
 from .models import Message, Notification, MessageHistory
+from django.contrib.auth.models import User
 
 #Automatically create a notification when message is sent
 @receiver(post_save, sender=Message)
