@@ -2,6 +2,7 @@
 
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models import Prefetch
 
 # Message model to store user-to-user messages
 class Message(models.Model):
@@ -16,6 +17,29 @@ class Message(models.Model):
 
     def __str__(self):
         return f"From {self.sender} to {self.receiver} at {self.timestamp}"
+    
+    def get_thread(self):
+        """
+        Recursively get all replies to this message.
+        """
+        thread = []
+
+        def fetch_replies(message):
+            for reply in message.replies.all():
+                thread.append(reply)
+                fetch_replies(reply)
+
+        fetch_replies(self)
+        return thread
+
+    @classmethod
+    def get_optimized_queryset(cls):
+        """
+        Optimized queryset using select_related for user and prefetch_related for threaded replies.
+        """
+        return cls.objects.select_related('sender', 'receiver', 'edited_by').prefetch_related(
+            Prefetch('replies', queryset=cls.objects.select_related('sender', 'receiver'))
+        )
 
 # Model to store history of edited messages
 class MessageHistory(models.Model):
