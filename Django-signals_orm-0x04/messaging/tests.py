@@ -30,3 +30,13 @@ def test_message_edit_creates_history(self):
         history = MessageHistory.objects.first()
         self.assertEqual(history.old_content, 'Initial')
         self.assertTrue(message.edited)
+
+def test_user_delete_removes_related_data(self):
+        message = Message.objects.create(sender=self.sender, receiver=self.receiver, content='Bye')
+        Notification.objects.create(user=self.receiver, message=message)
+
+        self.sender.delete()
+
+        self.assertEqual(Message.objects.count(), 0)
+        self.assertEqual(Notification.objects.count(), 0)
+        self.assertEqual(MessageHistory.objects.count(), 0)
