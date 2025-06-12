@@ -51,3 +51,20 @@ class ThreadedMessagesView(View):
             })
 
         return JsonResponse(thread_data, safe=False)
+@method_decorator(csrf_exempt, name='dispatch')
+class UnreadMessagesView(View):
+    def get(self, request):
+        user = request.user
+        # Fetch only unread messages using the custom manager
+        messages = Message.unread.unread_for_user(user).only("id", "sender", "content", "timestamp")
+
+        unread_data = []
+        for msg in messages:
+            unread_data.append({
+                "id": msg.id,
+                "sender": msg.sender.username,
+                "content": msg.content,
+                "timestamp": msg.timestamp.isoformat(),
+            })
+
+        return JsonResponse(unread_data, safe=False)
