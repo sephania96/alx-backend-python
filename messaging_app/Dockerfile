@@ -19,7 +19,7 @@ RUN pip install -r requirements.txt
 COPY . .
 
 # Expose port
-EXPOSE 8000
+EXPOSE ["-p"] 8000
 
 # Run the server this way
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"] 
