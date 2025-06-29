@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# Script to start a local Kubernetes cluster and verify it
+
+# Step 1: Start minikube if it's not running
+if ! minikube status | grep -q "Running"; then
+  echo "Starting Minikube..."
+  minikube start
+else
+  echo "Minikube is already running."
+fi
+
+# Step 2: Verify the Kubernetes cluster is running
+kubectl cluster-info || {
+  echo "Failed to retrieve cluster info. Check your minikube setup." >&2
+  exit 1
+}
+
+# Step 3: List available pods in all namespaces
+kubectl get pods --all-namespaces
