@@ -1,0 +1,10 @@
+#!/bin/bash
+# Apply blue and green deployments
+kubectl apply -f blue_deployment.yaml
+kubectl apply -f green_deployment.yaml
+
+# Apply service to route traffic (default is to green)
+kubectl apply -f kubeservice.yaml
+
+# Check logs for new green version pods
+kubectl get pods -l version=green -o name | xargs -n1 kubectl logs
