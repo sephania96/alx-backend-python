@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# Scale the Django app deployment to 3 replicas
+kubectl scale deployment messaging-app-deployment --replicas=3
+
+# Wait a moment to let Kubernetes start the pods
+sleep 5
+
+# List all running pods for the app
+echo "\n--- Running Pods ---"
+kubectl get pods -l app=messaging-app
+
+# Show resource usage of the pods (requires metrics-server)
+echo "\n--- Resource Usage ---"
+kubectl top pods
+
+# Run a load test using wrk (requires wrk to be installed)
+echo "\n--- Load Testing with wrk (10s, 2 threads, 10 connections) ---"
+echo "Make sure your service is exposed and reachable (NodePort or Ingress)."
+echo "Running: wrk -t2 -c10 -d10s http://<your-node-ip>:<port>/"
+echo "Replace the URL above with your service endpoint manually."
+
+# Done
