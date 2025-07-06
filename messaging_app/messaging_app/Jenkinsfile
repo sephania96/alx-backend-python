@@ -1,0 +1,60 @@
+pipeline {
+    agent any
+
+    environment {
+        DOCKER_IMAGE = 'dmadiou12/messaging_app:latest'
+    }
+
+    stages {
+        stage('Clone Repo') {
+            steps {
+                git branch: 'main', credentialsId: 'github-creds', url: 'https://github.com/d-madiou/alx-backend-python.git'
+            }
+        }
+
+        stage('Install Dependencies') {
+                steps {
+                    sh '''
+                    python3 --version || exit 1
+                    python3 -m venv venv
+                    . venv/bin/activate
+                    pip install --upgrade pip
+                    pip install -r messaging_app/requirements.txt
+                    '''
+                }
+            }
+
+
+        stage('Run Tests') {
+            steps {
+                sh '''
+                . venv/bin/activate
+                pytest messaging_app/tests/ --junitxml=report.xml
+                '''
+            }
+        }
+
+        stage('Archive Test Report') {
+            steps {
+                junit 'report.xml'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t $DOCKER_IMAGE messaging_app/.'
+            }
+        }
+
+        stage('Push Docker Image to DockerHub') {
+            steps {
+                withCredentials([string(credentialsId: 'dockerhub-password', variable: 'DOCKERHUB_PASS')]) {
+                    sh '''
+                    echo $DOCKERHUB_PASS | docker login -u dmadiou12 --password-stdin
+                    docker push $DOCKER_IMAGE
+                    '''
+                }
+            }
+        }
+    }
+}
