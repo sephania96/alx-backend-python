@@ -2,13 +2,13 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = 'dmadiou12/messaging_app:latest'
+        DOCKER_IMAGE = 'sephania96/messaging_app:latest'
     }
 
     stages {
         stage('Clone Repo') {
             steps {
-                git branch: 'main', credentialsId: 'github-creds', url: 'https://github.com/d-madiou/alx-backend-python.git'
+                git branch: 'main', credentialsId: 'github-creds', url: 'https://github.com/sephania96/alx-backend-python.git'
             }
         }
 
